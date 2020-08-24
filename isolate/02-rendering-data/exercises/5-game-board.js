@@ -9,86 +9,102 @@ const expect = chai.expect;
  * @returns {HTMLTableElement} the rendered game board
  */
 const renderGameBoard = (arrOfArrs) => {
- 
+
+    const tableEl = document.createElement('TABLE');
+
+    for (let i = 0; i < arrOfArrs.length; i++) {
+        const trEl = document.createElement('TR');
+
+        for (let j = 0; j < arrOfArrs[i].length; j++) {
+            const tdEl = document.createElement('TD');
+            tdEl.innerHTML = arrOfArrs[i][j];
+            trEl.appendChild(tdEl);
+        }
+        tableEl.appendChild(trEl);
+
+    }
+
+    return tableEl;
+
 };
 
 
 describe('renderGameBoard: renders a list of user screen names and real names', () => {
 
-  describe('tictactoe: X won on the middle column', () => {
-    const boardData = [
-      ['O', 'X', 'X'],
-      ['X', 'X', 'O'],
-      ['O', 'X', 'O'],
-    ];
-    const actual = renderGameBoard(boardData);
+    describe('tictactoe: X won on the middle column', () => {
+        const boardData = [
+            ['O', 'X', 'X'],
+            ['X', 'X', 'O'],
+            ['O', 'X', 'O'],
+        ];
+        const actual = renderGameBoard(boardData);
 
-    testGameBoard(actual, boardData);
-  });
+        testGameBoard(actual, boardData);
+    });
 
-  describe('empty mancala board', () => {
-    const boardData = [
-      ['', ''],
-      ['', ''],
-      ['', ''],
-      ['', ''],
-      ['', ''],
-      ['', ''],
-    ];
-    const actual = renderGameBoard(boardData);
+    describe('empty mancala board', () => {
+        const boardData = [
+            ['', ''],
+            ['', ''],
+            ['', ''],
+            ['', ''],
+            ['', ''],
+            ['', ''],
+        ];
+        const actual = renderGameBoard(boardData);
 
-    testGameBoard(actual, boardData);
-  });
+        testGameBoard(actual, boardData);
+    });
 
-  describe('Play Ball!', () => {
-    const boardData = [
-      ['p', 'l', 'a', 'y'],
-      ['b', 'a', 'l', 'l'],
-    ];
-    const actual = renderGameBoard(boardData);
+    describe('Play Ball!', () => {
+        const boardData = [
+            ['p', 'l', 'a', 'y'],
+            ['b', 'a', 'l', 'l'],
+        ];
+        const actual = renderGameBoard(boardData);
 
-    testGameBoard(actual, boardData);
-  });
+        testGameBoard(actual, boardData);
+    });
 
 });
 
 
 
 function testGameBoard(actual, boardData) {
-  it('has tagName: "TABLE"', () => {
-    expect(actual).to.have.property('tagName', 'TABLE');
-  });
-  it(`has childElementCount: ${boardData.length}`, () => {
-    expect(actual).to.have.property('childElementCount', boardData.length);
-  });
-  console.dir(actual);
-  for (let i = 0; i < boardData.length; i++) {
-    describe(`.children[${i}]`, () => {
-      const row = boardData[i];
-      const actualChild = actual.children[i];
-      it('has tagName: "TR"', () => {
-        expect(actualChild).to.have.property('tagName', 'TR');
-      });
-      it(`has childElementCount: ${row.length}`, () => {
-        expect(actualChild).to.have.property('childElementCount', row.length);
-      });
-      console.dir(actualChild);
-      for (let j = 0; j < row.length; j++) {
-        describe(`.children[${j}]`, () => {
-          const filler = row[j];
-          const actualChildChild = actualChild.children[j];
-          it('has tagName: "TD"', () => {
-            expect(actualChildChild).to.have.property('tagName', 'TD');
-          });
-          it(`has text: "${filler}"`, () => {
-            expect(actualChildChild).to.have.text(filler);
-          });
-          it(`has childElementCount: 0`, () => {
-            expect(actualChildChild).to.have.property('childElementCount', 0);
-          });
-          console.dir(actualChildChild);
+    it('has tagName: "TABLE"', () => {
+        expect(actual).to.have.property('tagName', 'TABLE');
+    });
+    it(`has childElementCount: ${boardData.length}`, () => {
+        expect(actual).to.have.property('childElementCount', boardData.length);
+    });
+    console.dir(actual);
+    for (let i = 0; i < boardData.length; i++) {
+        describe(`.children[${i}]`, () => {
+            const row = boardData[i];
+            const actualChild = actual.children[i];
+            it('has tagName: "TR"', () => {
+                expect(actualChild).to.have.property('tagName', 'TR');
+            });
+            it(`has childElementCount: ${row.length}`, () => {
+                expect(actualChild).to.have.property('childElementCount', row.length);
+            });
+            console.dir(actualChild);
+            for (let j = 0; j < row.length; j++) {
+                describe(`.children[${j}]`, () => {
+                    const filler = row[j];
+                    const actualChildChild = actualChild.children[j];
+                    it('has tagName: "TD"', () => {
+                        expect(actualChildChild).to.have.property('tagName', 'TD');
+                    });
+                    it(`has text: "${filler}"`, () => {
+                        expect(actualChildChild).to.have.text(filler);
+                    });
+                    it(`has childElementCount: 0`, () => {
+                        expect(actualChildChild).to.have.property('childElementCount', 0);
+                    });
+                    console.dir(actualChildChild);
+                }, true);
+            }
         }, true);
-      }
-    }, true);
-  }
+    }
 }
